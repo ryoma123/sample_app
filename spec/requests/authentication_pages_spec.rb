@@ -125,6 +125,7 @@ describe "Authentication" do
       describe "submitting a DELETE request to the Admin Users#destroy action" do
         before { delete user_path(admin) }
         specify { expect(response).to redirect_to(users_url) }
+        it { should_not have_success_message }
       end
     end
   end

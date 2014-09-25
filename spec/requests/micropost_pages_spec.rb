@@ -7,6 +7,13 @@ describe "Micropost pages" do
   let(:user) { FactoryGirl.create(:user) }
   before { sign_in user }
 
+  describe "micropost count" do
+    before { visit root_path }
+
+    it { should have_selector('aside.span4 span', text: user.microposts.count,
+                              text: "micropost".pluralize(user.microposts.count)) }
+  end
+
   describe "micropost creation" do
     before { visit root_path }
 

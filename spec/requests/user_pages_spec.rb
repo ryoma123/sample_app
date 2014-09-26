@@ -67,6 +67,19 @@ describe "User pages" do
       it { should have_content(m2.content) }
       it { should have_content(user.microposts.count) }
     end
+
+    describe "delete links" do
+      before { sign_in user }
+
+      describe "should not be able to delete micropost of another user" do
+        let(:another) { FactoryGirl.create(:user) }
+        let!(:am1) {FactoryGirl.create(:micropost, user: another, content: "Baz") }
+
+        before { visit user_path(another) }
+
+        it { should_not have_link('delete', href: user_path(Micropost.first)) }
+      end
+    end
   end
 
   describe "signup page" do

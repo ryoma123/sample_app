@@ -75,9 +75,10 @@ describe "User pages" do
 
       describe "should not be able to delete micropost of another user" do
         let(:another) { FactoryGirl.create(:user) }
-        let!(:am1) {FactoryGirl.create(:micropost, user: another, content: "Baz") }
-
-        before { visit user_path(another) }
+        before do
+          FactoryGirl.create(:micropost, user: another, content: "Baz")
+          visit user_path(another)
+        end
 
         it { should_not have_link('delete', href: user_path(Micropost.first)) }
       end

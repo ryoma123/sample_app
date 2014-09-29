@@ -44,9 +44,24 @@ describe "Micropost pages" do
   end
 
   describe "micropost pagination" do
-    before { 31.times { FactoryGirl.create(:micropost, user: user) } }
-    before { visit root_path }
+    let!(:default_per_page){ 30 }
 
-    it { should have_selector('div.pagination') }
+    context "should not view by 30 microposts" do
+      before do
+        FactoryGirl.create_list(:micropost, default_per_page, user: user)
+        visit user_path(user)
+      end
+
+      it { should_not have_selector('div.pagination') }
+    end
+
+    context "should view by 31 microposts" do
+      before do
+        FactoryGirl.create_list(:micropost, default_per_page + 1, user: user)
+        visit user_path(user)
+      end
+
+      it { should have_selector('div.pagination') }
+    end
   end
 end

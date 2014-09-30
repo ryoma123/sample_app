@@ -70,6 +70,22 @@ describe "User pages" do
       it { should have_content(user.microposts.count) }
     end
 
+    describe "delete links" do
+      let!(:m1) { FactoryGirl.create(:micropost, user: user, content: "Foo") }
+      before { sign_in user }
+
+      it { should have_link('delete', href: micropost_path(m1)) }
+
+      describe "should not be able to delete micropost of another user" do
+        let(:another) { FactoryGirl.create(:user) }
+        let!(:am1) { FactoryGirl.create(:micropost, user: another, content: "Baz") }
+        before { visit user_path(another) }
+
+        it { should have_content(am1.content) }
+        it { should_not have_link('delete', href: micropost_path(am1)) }
+      end
+    end
+
     describe "micropost pagination" do
       let(:default_per_page){ 30 }
 

@@ -79,7 +79,7 @@ describe "User pages" do
         before { visit user_path(another) }
 
         it { should have_content(am1.content) }
-        it { should_not have_link('delete', href: user_path(am1)) }
+        it { should_not have_link('delete', href: micropost_path(am1)) }
       end
     end
   end

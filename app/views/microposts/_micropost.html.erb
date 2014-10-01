@@ -4,6 +4,6 @@
     Posted <%= time_ago_in_words(micropost.created_at) %> ago.
   </span>
   <% if current_user?(micropost.user) %>
-    <%= render partial: 'shared/delete_links', locals: { page: micropost } %>
+    <%= render partial: 'shared/delete_links', locals: { micropost: micropost } %>
   <% end %>
 </li>

@@ -54,21 +54,24 @@ describe "User pages" do
 
   describe "profile page" do
     let(:user) { FactoryGirl.create(:user) }
-    let!(:m1) { FactoryGirl.create(:micropost, user: user, content: "Foo") }
-    let!(:m2) { FactoryGirl.create(:micropost, user: user, content: "Bar") }
-
     before { visit user_path(user) }
 
     it { should have_content(user.name) }
     it { should have_title(user.name) }
 
-    describe "microposts" do
+    describe "microposts exist in the feed" do
+      let!(:m1) { FactoryGirl.create(:micropost, user: user, content: "Foo") }
+      let!(:m2) { FactoryGirl.create(:micropost, user: user, content: "Bar") }
+
+      before { visit user_path(user) }
+
       it { should have_content(m1.content) }
       it { should have_content(m2.content) }
       it { should have_content(user.microposts.count) }
     end
 
     describe "delete links" do
+      let!(:m1) { FactoryGirl.create(:micropost, user: user, content: "Foo") }
       before { sign_in user }
 
       it { should have_link('delete', href: micropost_path(m1)) }
@@ -80,6 +83,35 @@ describe "User pages" do
 
         it { should have_content(am1.content) }
         it { should_not have_link('delete', href: micropost_path(am1)) }
+      end
+    end
+
+    describe "micropost pagination" do
+      let(:default_per_page){ 30 }
+
+      context "should not view by 30 microposts" do
+        before do
+          FactoryGirl.create_list(:micropost, default_per_page, user: user)
+          visit user_path(user)
+        end
+
+        it { should have_selector('ol.microposts li', count: 30) }
+        it { should_not have_selector('div.pagination') }
+      end
+
+      context "should view by 31 microposts" do
+        before do
+          FactoryGirl.create_list(:micropost, default_per_page + 1, user: user)
+          visit user_path(user)
+        end
+
+        it { should have_selector('ol.microposts li', count: 30) }
+        it { should have_selector('div.pagination') }
+
+        it "should have one micropost on the second page" do
+          click_link('2')
+          should have_selector('ol.microposts li', count: 1)
+        end
       end
     end
   end

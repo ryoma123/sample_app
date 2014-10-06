@@ -179,6 +179,14 @@ input {
   @extend .error;
 }
 
+form.new_micropost input.btn {
+  float: left;
+}
+
+form.new_micropost span.count {
+  text-align: right;
+}
+
 
 /* Users index */
 

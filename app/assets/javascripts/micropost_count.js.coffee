@@ -7,10 +7,6 @@ $ ->
     $(".count").html countDown
 
     if countDown < 0
-      $(".count").css
-        color: "#ff0000"
-        fontWeight: "bold"
+      $(".count").addClass "negative_number"
     else
-      $(".count").css
-        color: "#000000"
-        fontWeight: "normal"
+      $(".count").removeClass "negative_number"

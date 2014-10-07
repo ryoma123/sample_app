@@ -179,12 +179,16 @@ input {
   @extend .error;
 }
 
-form.new_micropost input.btn {
+.new_micropost .btn {
   float: left;
 }
 
-form.new_micropost span.count {
+.new_micropost {
   text-align: right;
+  .negative_number {
+    color: #f00;
+    font-weight: bold;
+  }
 }
 
 

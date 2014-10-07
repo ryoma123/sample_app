@@ -179,6 +179,18 @@ input {
   @extend .error;
 }
 
+.new_micropost .btn {
+  float: left;
+}
+
+.new_micropost {
+  text-align: right;
+  .negative_number {
+    color: #f00;
+    font-weight: bold;
+  }
+}
+
 
 /* Users index */
 

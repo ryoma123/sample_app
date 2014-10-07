@@ -1,6 +1,6 @@
 $ ->
   countMax = 140
-  $("#micropost_content").bind "keydown keyup keypress change click", ->
+  $("#micropost_content").on "keydown keyup keypress change click", ->
     thisValueLength = $(this).val().length
     countDown = countMax - thisValueLength
     $(".count").html countDown

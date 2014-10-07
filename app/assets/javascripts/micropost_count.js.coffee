@@ -1,6 +1,6 @@
 $ ->
   countMax = 140
-  $("textarea#micropost_content").bind "keydown keyup keypress change click", ->
+  $("#micropost_content").bind "keydown keyup keypress change click", ->
     thisValueLength = $(this).val().length
     countDown = countMax - thisValueLength
     $(".count").html countDown

@@ -209,14 +209,14 @@ describe User do
       follower.follow!(@user)
     end
 
-    it "should destroy associated relationships" do
+    it "should destroy associated relationship" do
       relationships = @user.relationships
       relationships.should_not be_empty
       @user.destroy
       relationships.should be_empty
     end
 
-    it "should destroy associated reverse relationships" do
+    it "should destroy associated reverse relationship" do
       reverse_relationships = @user.reverse_relationships
       reverse_relationships.should_not be_empty
       @user.destroy

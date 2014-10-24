@@ -164,6 +164,48 @@ describe "User pages" do
         end
       end
     end
+
+    describe "following/follower counts" do
+      let(:other_user) { FactoryGirl.create(:user) }
+
+      describe "following counts" do
+        before do
+          user.follow!(other_user)
+          visit user_path(user)
+        end
+
+        it { should have_link("1 following", href: following_user_path(user)) }
+        it { should have_link("0 followers", href: followers_user_path(user)) }
+
+        context "should decrement the followed user count when unfollow" do
+          before do
+            user.unfollow!(other_user)
+            visit user_path(user)
+          end
+
+          it { should have_link("0 following", href: following_user_path(user)) }
+        end
+      end
+
+      describe "followed counts" do
+        before do
+          other_user.follow!(user)
+          visit user_path(user)
+        end
+
+        it { should have_link("0 following", href: following_user_path(user)) }
+        it { should have_link("1 followers", href: followers_user_path(user)) }
+
+        context "should decrement the followers count when unfollow" do
+          before do
+            other_user.unfollow!(user)
+            visit user_path(user)
+          end
+
+          it { should have_link("0 followers", href: followers_user_path(user)) }
+        end
+      end
+    end
   end
 
   describe "signup page" do
